@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PM2E1Grupo5</string>
+    <string name="tituloRegistro">REGISTRAR CONTACTO</string>
+    <string name="tomarVideo">Tomar Video</string>
+    <string name="nombre">Nombre</string>
+    <string name="telefono">Telefono</string>
+    <string name="Latitud">Latitud</string>
+    <string name="Logitud">Longitud</string>
+    <string name="salvarContacto">Salvar Contacto</string>
+    <string name="contactosSalvados">Contactos Salvados</string>
+</resources>
