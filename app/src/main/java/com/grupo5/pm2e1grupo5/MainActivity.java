@@ -13,10 +13,14 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
     VideoView videoView;
+    FrameLayout frameLayout;
     Button btnGrabarVideoReg, btnSalvarContactoReg,btnContactosSalvardosReg;
     EditText txtNombreReg,txtTelefonoReg,txtlongitudReg,txtLatitudReg;
 
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         btnGrabarVideoReg = (Button) findViewById(R.id.btnGrabarVideoReg);
         btnSalvarContactoReg =(Button) findViewById(R.id.btnSalvarContactoReg);
         btnContactosSalvardosReg =(Button) findViewById(R.id.ContactosSalvadosReg);
-
+        frameLayout = (FrameLayout) findViewById(R.id.frameVideo);
         btnGrabarVideoReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,24 +53,37 @@ public class MainActivity extends AppCompatActivity {
                 String datoTelefono = txtTelefonoReg.getText().toString();
                 String datoLongitud = txtlongitudReg.getText().toString();
                 String datoLatitud = txtLatitudReg.getText().toString();
+                int count = 0;
                 if (datoNombre.isEmpty()){
                     txtNombreReg.setError("Requrido: Favor ingrese un nombre");
+                    count++;
                 }
                 if (datoTelefono.isEmpty()){
                     txtTelefonoReg.setError("Requrido: Favor ingrese un numero de Telefono");
+                    count++;
                 }
                 if (datoLatitud.isEmpty()){
-                    txtLatitudReg.setError("Requrido: Favor incluir la Latitud ");
+                    txtLatitudReg.setError("Requrido: Favor ingresar la Latitud ");
+                    count++;
                 }
                 if (datoLongitud.isEmpty()){
-                    txtlongitudReg.setError("Requrido: Debe de la Longitud");
+                    txtlongitudReg.setError("Requrido: Favor ingresar la Longitud");
+                    count++;
+                }
+                if (videoView.getCurrentPosition()==0){
+                    Toast.makeText(getApplicationContext(),"Favor Grabe un video",Toast.LENGTH_LONG).show();
+                    count++;
+                }
+                if (count==0){
+                    Toast.makeText(getApplicationContext(),"REGISTRO GUARDADO",Toast.LENGTH_LONG).show();
                 }
             }
         });
         btnContactosSalvardosReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), ListContactsActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -89,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
             Uri videoUri = intent.getData();
             videoView.setVideoURI(videoUri);
+            MediaController mediaController = new MediaController(this);
+            videoView.setMediaController(mediaController);
+            mediaController.setAnchorView(frameLayout);
         }
     }
 }
