@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +19,25 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.*;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.grupo5.pm2e1grupo5.config.Contactos;
+import com.grupo5.pm2e1grupo5.config.RestApiMethods;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
     VideoView videoView;
     FrameLayout frameLayout;
     Button btnGrabarVideoReg, btnSalvarContactoReg,btnContactosSalvardosReg;
     EditText txtNombreReg,txtTelefonoReg,txtlongitudReg,txtLatitudReg;
+    private RequestQueue requestQueue; //Cola de peticiones HTTP VOLLEY
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
 
@@ -70,12 +85,13 @@ public class MainActivity extends AppCompatActivity {
                     txtlongitudReg.setError("Requrido: Favor ingresar la Longitud");
                     count++;
                 }
-                if (videoView.getCurrentPosition()==0){
-                    Toast.makeText(getApplicationContext(),"Favor Grabe un video",Toast.LENGTH_LONG).show();
-                    count++;
-                }
+//                if (videoView.getCurrentPosition()==0){
+//                    Toast.makeText(getApplicationContext(),"Favor Grabe un video",Toast.LENGTH_LONG).show();
+//                    count++;
+//                }
                 if (count==0){
-                    Toast.makeText(getApplicationContext(),"REGISTRO GUARDADO",Toast.LENGTH_LONG).show();
+                    SaveContacts();
+
                 }
             }
         });
@@ -110,5 +126,44 @@ public class MainActivity extends AppCompatActivity {
             videoView.setMediaController(mediaController);
             mediaController.setAnchorView(frameLayout);
         }
+    }
+
+    private void SaveContacts() {
+        requestQueue = Volley.newRequestQueue(this);
+        Contactos contact = new Contactos();
+        contact.setNombres(txtNombreReg.getText().toString());
+        contact.setTelefono(txtTelefonoReg.getText().toString());
+        contact.setLatitud(txtLatitudReg.getText().toString());
+        contact.setLogintud(txtlongitudReg.getText().toString());
+        contact.setVideo("Video");
+        JSONObject jsonContact = new JSONObject();
+        try {
+            jsonContact.put("nombre",contact.getNombres());
+            jsonContact.put("telefono",contact.getTelefono());
+            jsonContact.put("latitud",contact.getLatitud());
+            jsonContact.put("longitud",contact.getLogintud());
+            jsonContact.put("video","video");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, RestApiMethods.apiPost, jsonContact, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String mensaje = response.getString("message");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("task","OnErrorResponse----> " + error.toString());
+            }
+        }
+        );
+
+        requestQueue.add(request);
+
     }
 }
