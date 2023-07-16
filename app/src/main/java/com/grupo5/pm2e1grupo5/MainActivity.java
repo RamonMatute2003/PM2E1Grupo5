@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     String mensaje = response.getString("message");
+                    Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }

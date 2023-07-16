@@ -16,6 +16,11 @@ public class Contactos {
     public Contactos() {
     }
 
+    public Contactos(String nombres, String telefono) {
+        this.nombres = nombres;
+        this.telefono = telefono;
+    }
+
     public Contactos(String id, String nombres, String telefono, String latitud, String logintud, String video) {
         this.id = id;
         this.nombres = nombres;

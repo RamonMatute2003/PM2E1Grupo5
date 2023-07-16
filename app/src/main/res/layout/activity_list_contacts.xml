@@ -39,20 +39,19 @@
         app:layout_constraintTop_toBottomOf="@+id/button" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/lyList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:minHeight="120dp"
-        android:orientation="vertical"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listContact"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lyEncabezado"
-        app:layout_constraintVertical_bias="0.017">
+        app:layout_constraintTop_toBottomOf="@+id/lyEncabezado" />
 
-    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
