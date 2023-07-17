@@ -1,6 +1,8 @@
 package com.grupo5.pm2e1grupo5.config;
 
-public class Contactos {
+import java.io.Serializable;
+
+public class Contactos implements Serializable {
     private String id;
 
     private String nombres;
@@ -16,10 +18,10 @@ public class Contactos {
     public Contactos() {
     }
 
-    public Contactos(String nombres, String telefono) {
-        this.nombres = nombres;
-        this.telefono = telefono;
-    }
+//    public Contactos(String nombres, String telefono) {
+//        this.nombres = nombres;
+//        this.telefono = telefono;
+//    }
 
     public Contactos(String id, String nombres, String telefono, String latitud, String logintud, String video) {
         this.id = id;

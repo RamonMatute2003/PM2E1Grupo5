@@ -18,11 +18,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<Contactos> mData;
     private LayoutInflater mInflater;
     private Context context;
+    final ListAdapter.onItemClickListener listener;
 
-    public ListAdapter(List<Contactos> mData, Context context) {
+    public interface onItemClickListener{
+        void onItemClick(Contactos item);
+    }
+
+    public ListAdapter(List<Contactos> mData, Context context, ListAdapter.onItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mData = mData;
+        this.listener = listener;
     }
 
     @Override
@@ -43,18 +49,27 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView iconImage;
-        TextView name,phone;
+        TextView name,phone,id;
         ViewHolder(View itemView){
             super (itemView);
             iconImage = itemView.findViewById(R.id.iconImageView);
             name = itemView.findViewById(R.id.nameTextView);
             phone = itemView.findViewById(R.id.phoneTextView);
+            id = itemView.findViewById(R.id.idTextView);
+
         }
 
         void bindData(final Contactos item){
 //            iconImage.setColorFilter(Color.parseColor("#FFF"), PorterDuff.Mode.SRC_IN);
             name.setText(item.getNombres());
             phone.setText(item.getTelefono());
+            id.setText(item.getId());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }

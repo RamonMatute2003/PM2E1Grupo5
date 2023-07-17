@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".EditContactActivity">
     <TextView
-        android:id="@+id/lblTituloRegistro"
+        android:id="@+id/lblTituloEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:text="@string/tituloRegistro"
+        android:text="EDITAR CONTACTO"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <FrameLayout
-        android:id="@+id/frameVideo"
+        android:id="@+id/frameVideoEdit"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
         android:layout_marginStart="10dp"
@@ -28,16 +27,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblTituloRegistro">
+        app:layout_constraintTop_toBottomOf="@+id/lblTituloEdit">
         <VideoView
-            android:id="@+id/videoView"
+            android:id="@+id/videoViewEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             />
     </FrameLayout>
     <Button
-        android:id="@+id/btnGrabarVideoReg"
+        android:id="@+id/btnGrabarVideoEdit"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -46,10 +45,10 @@
         android:text="@string/tomarVideo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameVideo" />
+        app:layout_constraintTop_toBottomOf="@+id/frameVideoEdit" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -59,10 +58,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGrabarVideoReg" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGrabarVideoEdit" />
 
     <EditText
-        android:id="@+id/txtNombreReg"
+        android:id="@+id/txtNombreEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -72,10 +71,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEdit" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView2Edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -85,23 +84,23 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreReg" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreEdit" />
 
     <EditText
-        android:id="@+id/txtTelefonoReg"
+        android:id="@+id/txtTelefonoEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
         android:hint="@string/telefono"
-        android:inputType="number|numberDecimal"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2Edit" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView3Edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -111,23 +110,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTelefonoReg" />
+        app:layout_constraintTop_toBottomOf="@+id/txtTelefonoEdit" />
 
     <EditText
-        android:id="@+id/txtLatitudReg"
+        android:id="@+id/txtLatitudEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
         android:hint="@string/Latitud"
-        android:inputType="text"
+        android:inputType="number|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3Edit" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView4Edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -137,10 +136,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLatitudReg" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLatitudEdit" />
 
     <EditText
-        android:id="@+id/txtLongitudReg"
+        android:id="@+id/txtLongitudEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -151,7 +150,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4Edit" />
 
     <LinearLayout
         android:layout_width="391dp"
@@ -164,23 +163,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLongitudReg">
+        app:layout_constraintTop_toBottomOf="@+id/txtLongitudEdit">
 
         <Button
-            android:id="@+id/btnSalvarContactoReg"
+            android:id="@+id/btnEditarContactoEdit"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:text="@string/salvarContacto" />
+            android:text="Editar Contacto" />
 
         <Button
-            android:id="@+id/ContactosSalvadosReg"
+            android:id="@+id/btnCancelarEdit"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:text="@string/contactosSalvados" />
+            android:text="Cancelar" />
     </LinearLayout>
 
 

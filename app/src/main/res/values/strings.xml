@@ -9,4 +9,5 @@
     <string name="salvarContacto">Salvar Contacto</string>
     <string name="contactosSalvados">Contactos Salvados</string>
     <string name="atras">Atras</string>
+    <string name="title_activity_maps">Maps_Activity</string>
 </resources>
