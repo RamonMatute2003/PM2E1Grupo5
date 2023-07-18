@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -143,20 +145,29 @@ public class ListContactsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String elementoSeleccionado = elementos[which];
 
-                        if (elementoSeleccionado == elementos[0]){ //Llamar
+                        if (elementoSeleccionado == elementos[0]){ //Ver mapa
                             Intent intent = new Intent(getApplicationContext(), Maps_Activity.class);
                             intent.putExtra("contact",item);
                             startActivity(intent);
                         }
                         if (elementoSeleccionado == elementos[1]){ //Reproducir Video
-                            Intent intent = new Intent(getApplicationContext(),PayVideoActivity.class);
-                            intent.putExtra("video",item.getVideo());
-                            startActivity(intent);
+                            Intent videoIntent = new Intent(getApplicationContext(),PayVideoActivity.class);
+
+
+                            SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("video", item.getVideo());
+                            editor.commit();
+
+
+
+                            startActivity(videoIntent);
                         }
                         if (elementoSeleccionado == elementos[2]){ //Editar Contacto
                             Intent intent = new Intent(getApplicationContext(), EditContactActivity.class);
                             intent.putExtra("contact",item);
-                            startActivityForResult(intent, REQUEST_EDIT_CONTACT);
+                            startActivity(intent);
+                            finish();
                         }
                         if (elementoSeleccionado==elementos[3]){//Eliminar Contacto
                             DialogEliminarContacto(item);
@@ -209,6 +220,8 @@ public class ListContactsActivity extends AppCompatActivity {
             }
         });
         Volley.newRequestQueue(this).add(request);
+        finish();
+        startActivity(getIntent());
     }
 
 }

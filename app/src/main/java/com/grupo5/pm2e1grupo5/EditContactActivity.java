@@ -97,8 +97,10 @@ public class EditContactActivity extends AppCompatActivity {
 //                }
                 if (count==0){
                     SaveEditContact();
-                    Intent resultIntent = new Intent();
-                    setResult(RESULT_OK, resultIntent);
+//                    Intent resultIntent = new Intent();
+//                    setResult(RESULT_OK, resultIntent);
+                    Intent intent = new Intent(getApplicationContext(), ListContactsActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             }
@@ -106,6 +108,8 @@ public class EditContactActivity extends AppCompatActivity {
         btnCancelEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListContactsActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,10 @@ import com.grupo5.pm2e1grupo5.config.RestApiMethods;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class MainActivity extends AppCompatActivity {
     VideoView videoView;
     FrameLayout frameLayout;
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue requestQueue; //Cola de peticiones HTTP VOLLEY
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
-
+    String encodedVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +99,13 @@ public class MainActivity extends AppCompatActivity {
                     txtlongitudReg.setError("Requrido: Favor ingresar la Longitud");
                     count++;
                 }
-//                if (videoView.getCurrentPosition()==0){
-//                    Toast.makeText(getApplicationContext(),"Favor Grabe un video",Toast.LENGTH_LONG).show();
-//                    count++;
-//                }
+                if (encodedVideo.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Favor Grabe un video",Toast.LENGTH_LONG).show();
+                    count++;
+                }
+
                 if (count==0){
                     SaveContacts();
-
                 }
             }
         });
@@ -124,6 +129,95 @@ public class MainActivity extends AppCompatActivity {
         }
         obtenerUbicacion();
     }
+
+
+    private void dispatchTakeVideoIntent() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+//        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+//
+//        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            Uri videoUri = data.getData();
+
+            videoView.setVideoURI(videoUri);
+            MediaController mediaController = new MediaController(this);
+            videoView.setMediaController(mediaController);
+            mediaController.setAnchorView(frameLayout);
+
+            InputStream inputStream = null;
+            try {
+                inputStream = getContentResolver().openInputStream(videoUri);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int len;
+                try {
+                    while ((len = inputStream.read(buffer)) != -1) {
+                        byteArrayOutputStream.write(buffer, 0, len);
+                    }
+                }catch (Exception e){
+
+                }
+            byte[] videoBytes = byteArrayOutputStream.toByteArray();
+            encodedVideo = Base64.encodeToString(videoBytes, Base64.DEFAULT);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void obtenerUbicacion(){
         LocationManager locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
@@ -150,13 +244,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
     private void permisos() {
-        if(ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA},REQUEST_VIDEO_CAPTURE);
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},REQUEST_VIDEO_CAPTURE);
         }else{
-            CapturarVideo();
+//            CapturarVideo();
+            dispatchTakeVideoIntent();
         }
     }
     public void CapturarVideo(){
@@ -165,17 +258,17 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-            Uri videoUri = intent.getData();
-            videoView.setVideoURI(videoUri);
-            MediaController mediaController = new MediaController(this);
-            videoView.setMediaController(mediaController);
-            mediaController.setAnchorView(frameLayout);
-        }
-    }
+    //Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//        super.onActivityResult(requestCode, resultCode, intent);
+//        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+//            Uri videoUri = intent.getData();
+//            videoView.setVideoURI(videoUri);
+//            MediaController mediaController = new MediaController(this);
+//            videoView.setMediaController(mediaController);
+//            mediaController.setAnchorView(frameLayout);
+//        }
+//    }
 
     private void SaveContacts() {
         requestQueue = Volley.newRequestQueue(this);
@@ -184,14 +277,14 @@ public class MainActivity extends AppCompatActivity {
         contact.setTelefono(txtTelefonoReg.getText().toString());
         contact.setLatitud(txtLatitudReg.getText().toString());
         contact.setLogintud(txtlongitudReg.getText().toString());
-        contact.setVideo("Video");
+        contact.setVideo(encodedVideo.toString());
         JSONObject jsonContact = new JSONObject();
         try {
             jsonContact.put("nombre",contact.getNombres());
             jsonContact.put("telefono",contact.getTelefono());
             jsonContact.put("latitud",contact.getLatitud());
             jsonContact.put("longitud",contact.getLogintud());
-            jsonContact.put("video","video");
+            jsonContact.put("video",contact.getVideo());
         }catch (Exception e){
             e.printStackTrace();
         }

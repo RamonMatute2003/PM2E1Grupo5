@@ -24,7 +24,6 @@
         android:theme="@style/Theme.PM2E1Grupo5"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -35,18 +34,16 @@
              Once you have your API key (it starts with "AIza"), define a new property in your
              project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
              "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+                    android:value="${MAPS_API_KEY}"
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
-
+            android:value="AIzaSyAPDugaQW11YS-2q02EOOKwMLUPa_F75DU" />
 
         <activity
             android:name=".Maps_Activity"
             android:exported="true"
-            android:label="@string/title_activity_maps" >
-
-        </activity>
+            android:label="@string/title_activity_maps"></activity>
         <activity
             android:name=".EditContactActivity"
             android:exported="false" />
@@ -64,7 +61,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
