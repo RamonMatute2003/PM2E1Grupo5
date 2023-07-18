@@ -1,7 +1,7 @@
 package com.grupo5.pm2e1grupo5.config;
 
 public class RestApiMethods {
-    public static final String ipaddress = "192.168.0.100";
+    public static final String ipaddress = "192.168.100.9";
     public static final String webapi = "ApiRestGrupo5";
     public static final String separador = "/";
     //Routing

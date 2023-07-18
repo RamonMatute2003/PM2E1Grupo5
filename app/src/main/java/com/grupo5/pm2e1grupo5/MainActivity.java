@@ -1,10 +1,5 @@
 package com.grupo5.pm2e1grupo5;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,7 +21,11 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.android.volley.*;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue requestQueue; //Cola de peticiones HTTP VOLLEY
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
-    String encodedVideo;
+    String encodedVideo="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,27 +150,47 @@ public class MainActivity extends AppCompatActivity {
             videoView.setMediaController(mediaController);
             mediaController.setAnchorView(frameLayout);
 
+            int targetBitRate = 2 * 1024 * 1024;
+            int targetFrameRate = 30;
+
             InputStream inputStream = null;
+
             try {
                 inputStream = getContentResolver().openInputStream(videoUri);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(this, videoUri);
+
+            /*Bitmap videoFrame = retriever.getFrameAtTime();
+            int originalWidth = videoFrame.getWidth();
+            int originalHeight = videoFrame.getHeight();
+
+            int compressedWidth = originalWidth / 2;
+            int compressedHeight = originalHeight / 2;
+
+            Bitmap compressedFrame = Bitmap.createScaledBitmap(videoFrame, compressedWidth, compressedHeight, false);
+            compressedFrame.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream); // Adjust the compression quality as needed
+*/
             byte[] buffer = new byte[1024];
             int len;
-                try {
-                    while ((len = inputStream.read(buffer)) != -1) {
-                        byteArrayOutputStream.write(buffer, 0, len);
-                    }
-                }catch (Exception e){
-
+            try {
+                while ((len = inputStream.read(buffer)) != -1) {
+                    byteArrayOutputStream.write(buffer, 0, len);
                 }
-            byte[] videoBytes = byteArrayOutputStream.toByteArray();
+            }catch (Exception e){
+
+            }
+
+            byte[] videoBytes=byteArrayOutputStream.toByteArray();
             encodedVideo = Base64.encodeToString(videoBytes, Base64.DEFAULT);
         }
     }
+
+
 
 
 
@@ -244,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private void permisos() {
+    private void permisos(){
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},REQUEST_VIDEO_CAPTURE);
         }else{
@@ -277,14 +297,14 @@ public class MainActivity extends AppCompatActivity {
         contact.setTelefono(txtTelefonoReg.getText().toString());
         contact.setLatitud(txtLatitudReg.getText().toString());
         contact.setLogintud(txtlongitudReg.getText().toString());
-        contact.setVideo(encodedVideo.toString());
+        //contact.setVideo(encodedVideo);
         JSONObject jsonContact = new JSONObject();
         try {
             jsonContact.put("nombre",contact.getNombres());
             jsonContact.put("telefono",contact.getTelefono());
             jsonContact.put("latitud",contact.getLatitud());
             jsonContact.put("longitud",contact.getLogintud());
-            jsonContact.put("video",contact.getVideo());
+            jsonContact.put("video",encodedVideo);
         }catch (Exception e){
             e.printStackTrace();
         }

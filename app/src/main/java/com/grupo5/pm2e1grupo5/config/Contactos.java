@@ -3,17 +3,17 @@ package com.grupo5.pm2e1grupo5.config;
 import java.io.Serializable;
 
 public class Contactos implements Serializable {
-    private String id;
+    private static String id;
 
-    private String nombres;
+    private static String nombres;
 
-    private String telefono;
+    private static String telefono;
 
-    private String latitud;
+    private static String latitud;
 
-    private String logintud;
+    private static String logintud;
 
-    private String video;
+    private static String video;
 
     public Contactos() {
     }
