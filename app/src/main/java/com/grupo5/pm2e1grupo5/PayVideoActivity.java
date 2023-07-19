@@ -68,10 +68,8 @@ public class PayVideoActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        // Obtener la URI del archivo de video
         Uri videoUri = Uri.fromFile(videoFile);
 
-        // Configurar el VideoView o MediaPlayer con la URI del archivo de video
         videoView.setVideoURI(videoUri);
 
         videoView.start();

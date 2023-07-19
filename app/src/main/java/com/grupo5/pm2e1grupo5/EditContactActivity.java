@@ -136,14 +136,9 @@ public class EditContactActivity extends AppCompatActivity {
                     txtlongitudEdit.setError("Requrido: Favor ingresar la Longitud");
                     count++;
                 }
-//                if (videoView.getCurrentPosition()==0){
-//                    Toast.makeText(getApplicationContext(),"Favor Grabe un video",Toast.LENGTH_LONG).show();
-//                    count++;
-//                }
+
                 if (count==0){
                     SaveEditContact();
-//                    Intent resultIntent = new Intent();
-//                    setResult(RESULT_OK, resultIntent);
                     Intent intent = new Intent(getApplicationContext(), ListContactsActivity.class);
                     startActivity(intent);
                 }
