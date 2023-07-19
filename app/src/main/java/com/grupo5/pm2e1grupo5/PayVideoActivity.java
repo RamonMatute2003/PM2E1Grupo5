@@ -7,7 +7,7 @@ import android.media.MediaExtractor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,36 +34,33 @@ public class PayVideoActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         String video = prefs.getString("video", "");
+        byte[] videBytes=video.getBytes();
 
-        Log.d("VIDEO PASADOOOOOOOO", "onCreate: " + video);
+        byte[] decodedVideoBytes = Base64.decode(videBytes, Base64.DEFAULT);
 
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodedVideoBytes);
 
-        byte[] decodedBytes = Base64.decode(video, Base64.DEFAULT);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(decodedBytes);
+        videoView.setVideoURI(Uri.parse(String.valueOf(decodedVideoBytes)));
 
-        File videoFile = null;
-        Log.e("w",""+videoFile);
+        MediaController mediaController = new MediaController(this);
+        videoView.setMediaController(mediaController);
+        mediaController.setAnchorView(videoView);
+
+        File videoFile = new File(getFilesDir(), "video.mp4");
         try {
-            /*Log.e("w",""+videoFile);
-            videoFile = File.createTempFile("temp_video", ".mp4", getCacheDir());
-            Log.e("w",""+videoFile);*/
-
-            videoFile = new File("data/data/com.grupo5.pm2e1grupo5/cache/volley/", "temp_video.mp4");
             FileOutputStream outputStream = new FileOutputStream(videoFile);
-            outputStream.write(decodedBytes);
+            outputStream.write(decodedVideoBytes);
             outputStream.close();
         } catch (IOException e) {
-            Log.e("Error",""+e);
+            throw new RuntimeException(e);
         }
 
-        String videoUrl = null;
-        if (videoFile != null) {
-            videoUrl = videoFile.getAbsolutePath();
-        }
+        // Obtener la URI del archivo de video
+        Uri videoUri = Uri.fromFile(videoFile);
 
-        //Uri uri = Uri.parse("data/data/com.grupo5.pm2e1grupo5/cache/volley/"+(videoUrl.substring(42, videoUrl.length())));
-        Uri uri = Uri.parse("data/data/com.grupo5.pm2e1grupo5/cache/volley/2023-05-16.mp4");
-        Log.e("url", videoUrl);
-        videoView.setVideoURI(uri);
+        // Configurar el VideoView o MediaPlayer con la URI del archivo de video
+        videoView.setVideoURI(videoUri);
+
+        videoView.start();
     }
 }

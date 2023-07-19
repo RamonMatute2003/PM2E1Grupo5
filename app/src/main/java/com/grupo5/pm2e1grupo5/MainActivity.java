@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if(permissionCheck== PackageManager.PERMISSION_DENIED){
@@ -129,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
         }
         obtenerUbicacion();
     }
-
 
     private void dispatchTakeVideoIntent() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -165,16 +163,6 @@ public class MainActivity extends AppCompatActivity {
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             retriever.setDataSource(this, videoUri);
 
-            /*Bitmap videoFrame = retriever.getFrameAtTime();
-            int originalWidth = videoFrame.getWidth();
-            int originalHeight = videoFrame.getHeight();
-
-            int compressedWidth = originalWidth / 2;
-            int compressedHeight = originalHeight / 2;
-
-            Bitmap compressedFrame = Bitmap.createScaledBitmap(videoFrame, compressedWidth, compressedHeight, false);
-            compressedFrame.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream); // Adjust the compression quality as needed
-*/
             byte[] buffer = new byte[1024];
             int len;
             try {
@@ -189,55 +177,6 @@ public class MainActivity extends AppCompatActivity {
             encodedVideo = Base64.encodeToString(videoBytes, Base64.DEFAULT);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void obtenerUbicacion(){
         LocationManager locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
@@ -278,17 +217,6 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }
-    //Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-//            Uri videoUri = intent.getData();
-//            videoView.setVideoURI(videoUri);
-//            MediaController mediaController = new MediaController(this);
-//            videoView.setMediaController(mediaController);
-//            mediaController.setAnchorView(frameLayout);
-//        }
-//    }
 
     private void SaveContacts() {
         requestQueue = Volley.newRequestQueue(this);

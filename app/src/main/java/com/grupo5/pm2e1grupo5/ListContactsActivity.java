@@ -79,8 +79,6 @@ public class ListContactsActivity extends AppCompatActivity {
         requestQueue= Volley.newRequestQueue(this);
 
         SelectedContacts();
-
-
     }
 
     @Override
@@ -95,8 +93,8 @@ public class ListContactsActivity extends AppCompatActivity {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, RestApiMethods.apiGet, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                try {
-                    JSONArray jsonArray = response;
+                try{
+                    JSONArray jsonArray=response;
                     for (int i=0; i<jsonArray.length(); i++){
                         JSONObject jsonContac = new JSONObject(jsonArray.getString(i));
 
@@ -107,12 +105,12 @@ public class ListContactsActivity extends AppCompatActivity {
                         String latitud = jsonContac.getString("latitud");
                         String video = jsonContac.getString("video");
                         elements.add(new Contactos(idcontacto,nombre,telefono,latitud,longitud,video));
+                        Log.e("w",""+elements);
                     }
                     LlenarContactos();
-                } catch (JSONException e) {
+                }catch(JSONException e){
                     throw new RuntimeException(e);
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -146,7 +144,9 @@ public class ListContactsActivity extends AppCompatActivity {
 
                         if (elementoSeleccionado == elementos[0]){ //Ver mapa
                             Intent intent = new Intent(getApplicationContext(), Maps_Activity.class);
-                            intent.putExtra("contact",item);
+                            intent.putExtra("la",item.getLatitud());
+                            intent.putExtra("lo",item.getLogintud());
+                            intent.putExtra("name",item.getNombres());
                             startActivity(intent);
                         }
                         if (elementoSeleccionado == elementos[1]){ //Reproducir Video
@@ -164,8 +164,17 @@ public class ListContactsActivity extends AppCompatActivity {
                         }
                         if (elementoSeleccionado == elementos[2]){ //Editar Contacto
                             Intent intent = new Intent(getApplicationContext(), EditContactActivity.class);
-                            intent.putExtra("contact",item);
+                            SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("id", item.getId());
+                            editor.putString("nombre", item.getNombres());
+                            editor.putString("telefono", item.getTelefono());
+                            editor.putString("latitud", item.getLatitud());
+                            editor.putString("longitud", item.getLogintud());
+                            editor.putString("video", item.getVideo());
+                            editor.commit();
                             startActivity(intent);
+
                             finish();
                         }
                         if (elementoSeleccionado==elementos[3]){//Eliminar Contacto
