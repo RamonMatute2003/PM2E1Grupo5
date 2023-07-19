@@ -161,6 +161,7 @@ public class ListContactsActivity extends AppCompatActivity {
 
 
                             startActivity(videoIntent);
+                            finish();
                         }
                         if (elementoSeleccionado == elementos[2]){ //Editar Contacto
                             Intent intent = new Intent(getApplicationContext(), EditContactActivity.class);

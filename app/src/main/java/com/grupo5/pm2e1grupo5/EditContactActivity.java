@@ -146,8 +146,8 @@ public class EditContactActivity extends AppCompatActivity {
 //                    setResult(RESULT_OK, resultIntent);
                     Intent intent = new Intent(getApplicationContext(), ListContactsActivity.class);
                     startActivity(intent);
-                    finish();
                 }
+                finish();
             }
         });
         btnCancelEditContact.setOnClickListener(new View.OnClickListener() {
